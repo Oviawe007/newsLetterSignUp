@@ -1,11 +1,10 @@
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const https = require("https");
-
+const port = 3000
 const app = express();
-
-const PORT = 3000;
 
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended:true}));
@@ -39,11 +38,11 @@ app.post("/" , (req,res)=>{
 
     const jsonData = JSON.stringify(data);
 
-    const url = "https://us8.api.mailchimp.com/3.0/lists/3dd44af3b5"
+    const url = `https://us8.api.mailchimp.com/3.0/lists/${process.env.LIST_ID}`
 
     const options = {
         method: "POST",
-        auth: "skyloft:f0869481757f99bde4cf7ce3132a437c-us8"
+        auth: `skyloft:${process.env.API_KEY}`
     }
 
 
@@ -66,17 +65,8 @@ app.post("/" , (req,res)=>{
 });
 
 
-//API KEY
-// f0869481757f99bde4cf7ce3132a437c-us8
 
-//list_id
-// 3dd44af3b5
-
-
-
-
-
-
-app.listen(process.env.PORT || PORT, ()=>{
-    console.log("Server Started on port "+ PORT)
+app.listen(process.env.PORT || port, ()=>{
+    console.log("Server Started on port "+ port)
 });
+
